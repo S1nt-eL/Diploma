@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Основы безопасности и защиты Родины</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+    <style>
+        /* Дополнительные стили для страницы безопасности */
+        .grade-selector {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+            gap: 1rem;
+        }
+        
+        .grade-btn {
+            padding: 0.8rem 2rem;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            font-weight: 600;
+        }
+        
+        .grade-btn.active {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+        
+        .grade-btn:hover:not(.active) {
+            border-color: var(--primary-color);
+        }
+        
+        .content-container {
+            padding: 2rem 0;
+        }
+        
+        .grade-content {
+            display: none;
+        }
+        
+        .grade-content.active {
+            display: block;
+            animation: fadeIn 0.6s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .safety-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+        
+        .safety-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        
+        .safety-card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .safety-card-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.5rem;
+        }
+        
+        .safety-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+        
+        .safety-card p {
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+        }
+        
+        .safety-img {            margin: 2rem auto;            border-radius: var(--border-radius);            overflow: hidden;            width: 30%;            max-width: 315px;        }
+        
+        .safety-img img {
+            width: 100%;
+            transition: transform 0.5s ease;
+            display: block;
+        }
+        
+        .safety-img:hover img {
+            transform: scale(1.05);
+        }
+        
+        .info-list {
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .info-list li {
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        .info-list li:before {
+            content: '\f058';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+        }
+        
+        .highlight-box {
+            background-color: var(--neutral-color);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        
+        .highlight-box h4 {
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+        
+        /* Анимации */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .stagger-item {
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        /* Стили для изображений без рамок */
+        .safety-img img[src*="Слой 2.png"],
+        .safety-img img[src*="Слой 3.png"] {
+            border: none;
+            transition: all 0.4s ease;
+        }
+        
+        .safety-img img[src*="Слой 2.png"]:hover,
+        .safety-img img[src*="Слой 3.png"]:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="site-logo">
+                    <a href="index.html">
+                        <img src="img/Слой 1.png" alt="Логотип">
+                    </a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="#" class="active">Безопасность и защита Родины</a></li>
+                    <li><a href="#materials">Материалы</a></li>
+                    <li><a href="#contacts">Контакты</a></li>
+                </ul>
+                <div class="burger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="bezopasnost-hero">
+        <div class="container">
+            <div class="bezopasnost-hero-content fade-in">
+                <h1>Основы безопасности и защиты Родины</h1>
+                <p>Образовательные материалы для учащихся 10-11 классов</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="grade-selector">
+        <div class="container">
+            <button class="grade-btn active" data-grade="10">10 класс</button>
+            <button class="grade-btn" data-grade="11">11 класс</button>
+        </div>
+    </section>
+
+    <section class="content-container">
+        <div class="container">
+            <!-- Контент для 10 класса -->
+            <div class="grade-content active" id="grade-10">
+                <!-- Раздел 1 -->
+                <div class="safety-card fade-up">
+                    <div class="safety-card-header">
+                        <div class="safety-card-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Национальная безопасность России в современном мире</h3>
+                    </div>
+                    
+                    <div class="safety-img">
+                        <img src="img/Слой 2.png" alt="Национальная безопасность">
+                    </div>
+                    
+                    <p>Национальная безопасность – это состояние защищённости личности, общества и государства от внутренних и внешних угроз, при котором обеспечиваются реализация конституционных прав и свобод граждан, достойные качество и уровень их жизни, независимость, суверенитет, территориальная целостность, устойчивое развитие Российской Федерации.</p>
+                    
+                    <div class="highlight-box">
+                        <h4>Основные компоненты национальной безопасности:</h4>
+                        <ul class="info-list">
+                            <li>Военная безопасность</li>
+                            <li>Экономическая безопасность</li>
+                            <li>Информационная безопасность</li>
+                            <li>Экологическая безопасность</li>
+                            <li>Социальная безопасность</li>
+                        </ul>
+                    </div>
+                    
+                    <p>Национальные интересы России в современном мире заключаются в обеспечении безопасности страны, сохранении суверенитета и территориальной целостности, укреплении стабильности конституционного строя и демократических институтов, а также в создании условий для устойчивого экономического роста и повышения благосостояния граждан.</p>
+                </div>
+                
+                <!-- Раздел 2 -->
+                <div class="safety-card fade-up">
+                    <div class="safety-card-header">
+                        <div class="safety-card-icon">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <h3>Гражданская оборона как система мер по защите населения</h3>
+                    </div>
+                    
+                    <p>Гражданская оборона – это система мероприятий по подготовке к защите и по защите населения, материальных и культурных ценностей на территории Российской Федерации от опасностей, возникающих при военных конфликтах или вследствие этих конфликтов, а также при чрезвычайных ситуациях природного и техногенного характера.</p>
+                    
+                    <div class="safety-img">
+                        <img src="img/Слой 3.png" alt="Гражданская оборона">
+                    </div>
+                    
+                    <ul class="info-list">
+                        <li>Оповещение населения об опасностях</li>
+                        <li>Эвакуация населения в безопасные районы</li>
+                        <li>Предоставление населению средств индивидуальной защиты</li>
+                        <li>Проведение аварийно-спасательных работ</li>
+                        <li>Медицинское обеспечение населения</li>
+                        <li>Организация противорадиационной и противохимической защиты</li>
+                    </ul>
+                    
+                    <div class="highlight-box">
+                        <h4>Важно знать!</h4>
+                        <p>В случае объявления сигнала «Внимание всем!» (звук сирены) необходимо включить радио, телевизор или другие средства информации и прослушать сообщение.</p>
+                    </div>
+                </div>
+                
+                <!-- Раздел 3 -->
+                <div class="safety-card fade-up">
+                    <div class="safety-card-header">
+                        <div class="safety-card-icon">
+                            <i class="fas fa-flag"></i>
+                        </div>
+                        <h3>Вооруженные Силы Российской Федерации</h3>
+                    </div>
+                    
+                    <div class="safety-img">
+                        <img src="img/1.png" alt="Вооруженные силы">
+                    </div>
+                    
+                    <p>Вооружённые Силы Российской Федерации – государственная военная организация, составляющая основу обороны страны. Предназначены для защиты свободы, независимости и территориальной целостности государства.</p>
+                    
+                    <h4>Структура Вооружённых Сил России:</h4>
+                    <ul class="info-list">
+                        <li>Сухопутные войска</li>
+                        <li>Воздушно-космические силы</li>
+                        <li>Военно-морской флот</li>
+                        <li>Ракетные войска стратегического назначения</li>
+                        <li>Воздушно-десантные войска</li>
+                    </ul>
+                    
+                    <p>Для граждан России установлена воинская обязанность, которая предусматривает:</p>
+                    <ul class="info-list">
+                        <li>Воинский учёт</li>
+                        <li>Обязательную подготовку к военной службе</li>
+                        <li>Призыв на военную службу</li>
+                        <li>Прохождение военной службы по призыву</li>
+                        <li>Пребывание в запасе</li>
+                        <li>Призыв на военные сборы в период пребывания в запасе</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Контент для 11 класса -->
+            <div class="grade-content" id="grade-11">
+                <!-- Раздел 1 -->
+                <div class="safety-card fade-up">
+                    <div class="safety-card-header">
+                        <div class="safety-card-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3>Международное гуманитарное право и права человека</h3>
+                    </div>
+                    
+                    <div class="safety-img">
+                        <img src="img/2.png" alt="Международное гуманитарное право">
+                    </div>
+                    
+                    <p>Международное гуманитарное право – совокупность международно-правовых норм и принципов, регулирующих защиту жертв войны, а также ограничивающих методы и средства ведения войны.</p>
+                    
+                    <div class="highlight-box">
+                        <h4>Основные документы международного гуманитарного права:</h4>
+                        <ul class="info-list">
+                            <li>Женевские конвенции 1949 года</li>
+                            <li>Дополнительные протоколы к Женевским конвенциям 1977 года</li>
+                            <li>Гаагские конвенции 1899 и 1907 годов</li>
+                            <li>Всеобщая декларация прав человека</li>
+                        </ul>
+                    </div>
+                    
+                    <p>Международное гуманитарное право защищает тех, кто не участвует или прекратил участвовать в военных действиях: раненых, больных, потерпевших кораблекрушение из состава вооруженных сил, военнопленных, гражданское население.</p>
+                    
+                    <p>Соблюдение норм международного гуманитарного права является обязанностью всех государств, а знание этих норм – важная часть военно-патриотического воспитания.</p>
+                </div>
+                
+                <!-- Раздел 2 -->
+                <div class="safety-card fade-up">
+                    <div class="safety-card-header">
+                        <div class="safety-card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Основы военной службы и воинской обязанности граждан</h3>
+                    </div>
+                    
+                    <div class="safety-img">
+                        <img src="img/13.png" alt="Военная служба">
+                    </div>
+                    
+                    <p>Военная служба – особый вид федеральной государственной службы, которая заключается в повседневном выполнении гражданами воинских обязанностей.</p>
+                    
+                    <h4>Порядок подготовки и поступления на военную службу:</h4>
+                    <ul class="info-list">
+                        <li>Первоначальная постановка на воинский учёт (в год достижения 17 лет)</li>
+                        <li>Медицинское освидетельствование</li>
+                        <li>Профессиональный психологический отбор</li>
+                        <li>Призыв на военную службу (с 18 до 27 лет)</li>
+                        <li>Возможность выбора альтернативной гражданской службы</li>
+                        <li>Возможность поступления в военные образовательные учреждения</li>
+                    </ul>
+                    
+                    <div class="highlight-box">
+                        <h4>Преимущества военной службы по контракту:</h4>
+                        <ul class="info-list">
+                            <li>Стабильное денежное довольствие</li>
+                            <li>Жилищное обеспечение</li>
+                            <li>Медицинское и санаторно-курортное обеспечение</li>
+                            <li>Страхование жизни и здоровья</li>
+                            <li>Пенсионное обеспечение</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Раздел 3 -->
+                <div class="safety-card fade-up">
+                    <div class="safety-card-header">
+                        <div class="safety-card-icon">
+                            <i class="fas fa-landmark"></i>
+                        </div>
+                        <h3>Правовые основы военной службы</h3>
+                    </div>
+                    
+                    <p>Правовую основу военной службы составляют Конституция Российской Федерации, федеральные законы и иные нормативные правовые акты Российской Федерации в области обороны, воинской обязанности, военной службы и статуса военнослужащих, международные договоры Российской Федерации.</p>
+                    
+                    <div class="safety-img">
+                        <img src="img/Слой 4.png" alt="Правовые основы">
+                    </div>
+                    
+                    <h4>Основные нормативные правовые акты:</h4>
+                    <ul class="info-list">
+                        <li>Федеральный закон «Об обороне»</li>
+                        <li>Федеральный закон «О воинской обязанности и военной службе»</li>
+                        <li>Федеральный закон «О статусе военнослужащих»</li>
+                        <li>Общевоинские уставы Вооруженных Сил Российской Федерации</li>
+                    </ul>
+                    
+                    <div class="highlight-box">
+                        <h4>Права и обязанности военнослужащих</h4>
+                        <p>Военнослужащие обладают правами и свободами человека и гражданина с некоторыми ограничениями, установленными федеральными законами. При этом они имеют специальные права, обусловленные особенностями военной службы, и несут обязанности по подготовке к вооруженной защите и по вооруженной защите Российской Федерации.</p>
+                    </div>
+                    
+                    <p>Одним из важнейших актов, определяющих взаимоотношения военнослужащих, является Дисциплинарный устав Вооруженных Сил РФ, который определяет сущность воинской дисциплины, обязанности военнослужащих по ее соблюдению, виды поощрений и дисциплинарных взысканий.</p>
+                </div>
+
+                <!-- Раздел 4 -->
+                <div class="safety-card fade-up">
+                    <div class="safety-card-header">
+                        <div class="safety-card-icon">
+                            <i class="fas fa-university"></i>
+                        </div>
+                        <h3>Военные образовательные учреждения</h3>
+                    </div>
+                    
+                    <p>Система военного образования в России представлена различными учебными заведениями, которые готовят квалифицированных офицеров для Вооруженных Сил.</p>
+                    
+                    <div class="safety-img">
+                        <img src="img/Слой 5.png" alt="Военные учреждения">
+                    </div>
+                    
+                    <h4>Преимущества обучения в военных вузах:</h4>
+                    <ul class="info-list">
+                        <li>Получение бесплатного высшего образования</li>
+                        <li>Гарантированное трудоустройство после выпуска</li>
+                        <li>Полное государственное обеспечение на период обучения</li>
+                        <li>Стипендия, значительно превышающая стипендии в гражданских вузах</li>
+                        <li>Перспектива карьерного роста</li>
+                        <li>Возможность раннего выхода на пенсию</li>
+                    </ul>
+                    
+                    <div class="highlight-box">
+                        <h4>Порядок поступления в военные учебные заведения:</h4>
+                        <p>Для поступления необходимо обратиться в военный комиссариат по месту жительства до 20 апреля года поступления, пройти медицинское освидетельствование, профессиональный психологический отбор, сдать нормативы по физической подготовке и пройти вступительные испытания.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="materials" class="bezopasnost-footer">
+        <div class="container">
+            <div class="section-header">
+                <h2>Дополнительные материалы</h2>
+                <div class="separator"></div>
+            </div>
+            
+            <div class="safety-card fade-up">
+                <h3>Учебные пособия и материалы</h3>
+                <p>Здесь вы можете найти дополнительные материалы для изучения основ безопасности и защиты Родины.</p>
+                
+                <div class="highlight-box">
+                    <h4>Методические материалы</h4>
+                    <ul class="info-list">
+                        <li>Учебное пособие "Основы военной службы"</li>
+                        <li>Практикум по гражданской обороне</li>
+                        <li>Тесты для проверки знаний</li>
+                        <li>Видеоматериалы по безопасности жизнедеятельности</li>
+                    </ul>
+                </div>
+                
+                <div class="bezopasnost-buttons">
+                    <a href="#" class="btn primary-btn download-btn"><i class="fas fa-download"></i> Скачать учебные материалы</a>
+                    <a href="#" class="btn secondary-btn"><i class="fas fa-external-link-alt"></i> Онлайн-курсы</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="contacts" class="bezopasnost-footer">
+        <div class="container">
+            <div class="section-header">
+                <h2>Контакты</h2>
+                <div class="separator"></div>
+            </div>
+            
+            <div class="safety-card fade-up">
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <p>Советская ул., 1, Донской</p>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <p>+7 (495) 123-**-**</p>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <p>info@school-safety.ru</p>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-clock"></i>
+                            <p>Пн-Пт: 9:00 - 19:00</p>
+                        </div>
+                    </div>
+                    
+                    <form class="contact-form fade-in delay-1">
+                        <div class="form-group">
+                            <input type="text" id="name" placeholder="Ваше имя" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" placeholder="Ваш email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" id="phone" placeholder="Ваш телефон">
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" placeholder="Ваше сообщение" required></textarea>
+                        </div>
+                        <button type="submit" class="btn primary-btn">Отправить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <div class="footer-logo">
+                        <img src="img/Слой 1.png" alt="Логотип" class="small-logo">
+                        <p>Образовательные материалы по основам безопасности и защиты Родины</p>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Полезные ссылки</h3>
+                    <ul>
+                        <li><a href="https://mil.ru/" target="_blank">Министерство обороны РФ</a></li>
+                        <li><a href="https://mchs.gov.ru/" target="_blank">МЧС России</a></li>
+                        <li><a href="https://edu.gov.ru/" target="_blank">Министерство просвещения</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 Основы безопасности и защиты Родины. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Переключение между классами
+        const gradeButtons = document.querySelectorAll('.grade-btn');
+        const gradeContents = document.querySelectorAll('.grade-content');
+
+        gradeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const grade = button.getAttribute('data-grade');
+                
+                // Обновление активной кнопки
+                gradeButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                // Отображение соответствующего контента
+                gradeContents.forEach(content => content.classList.remove('active'));
+                document.getElementById(`grade-${grade}`).classList.add('active');
+                
+                // Инициализация анимаций для нового контента
+                initFadeAnimations();
+            });
+        });
+
+        // Анимация при скроллинге
+        function initFadeAnimations() {
+            const fadeElements = document.querySelectorAll('.fade-up');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            fadeElements.forEach(element => {
+                observer.observe(element);
+            });
+        }
+
+        // Инициализация анимаций при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            initFadeAnimations();
+        });
+    </script>
+</body>
+</html> 
